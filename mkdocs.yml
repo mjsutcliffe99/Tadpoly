@@ -1,0 +1,15 @@
+site_name: Tadpoly Developer Documentation
+site_description: Documentation for the Tadpoly console
+
+theme:
+  name: material
+
+extra_css:
+  - stylesheets/tadpoly.css
+
+nav:
+  - Home: index.md
+
+  - System Manual:
+      - System Overview: manual/system.md
+      - Graphics: manual/graphics.md
