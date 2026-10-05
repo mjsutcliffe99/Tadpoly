@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block header %}
+
+<header class="tp-header">
+
+  <div class="tp-masthead">
+
+    <div class="tp-brand">
+      <div class="tp-wordmark">TADPOLY</div>
+      <div class="tp-network">DEVELOPER DOCUMENTATION</div>
+    </div>
+
+    <div class="tp-tagline">
+      CREATIVE TAGLINE HERE?
+    </div>
+
+    <div class="tp-promo">
+      <strong>SPLASH TEXT<br>HERE MAYBE?</strong>
+    </div>
+
+  </div>
+
+  <nav class="tp-tabs">
+    <a href="{{ config.site_url | default(nav.homepage.url, true) | url }}">HOME</a>
+    <a href="{{ 'getting-started/' | url }}">GETTING STARTED</a>
+    <a href="{{ 'guides/' | url }}">TUTORIALS</a>
+    <a href="#">API REFERENCE</a>
+    <a href="{{ 'manual/system/' | url }}">HARDWARE</a>
+
+    <div class="tp-search">
+      <label for="__search">
+        Search Documentation...
+      </label>
+    </div>
+  </nav>
+
+</header>
+
+{% endblock %}

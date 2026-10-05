@@ -1,0 +1,850 @@
+/* ============================================================
+   TADPOLY DEVELOPER DOCUMENTATION
+   ============================================================ */
+
+
+/* ------------------------------------------------------------
+   COLOUR PALETTE
+   ------------------------------------------------------------ */
+
+:root {
+    --tp-paper: #eee8d5;
+    --tp-paper-dark: #ddd4ba;
+
+    --tp-ink: #25231f;
+    --tp-ink-muted: #696458;
+
+    --tp-navy: #24364b;
+
+    --tp-orange: #d87832;
+    --tp-blue: #6db4ce;
+    --tp-green: #76bd96;
+    --tp-yellow: #dfb950;
+    --tp-pink: #d95f7b;
+
+    --tp-rule: #35322c;
+}
+
+
+/* ============================================================
+   PAGE
+   ============================================================ */
+
+html,
+body {
+    background: var(--tp-paper);
+    color: var(--tp-ink);
+}
+
+body {
+    margin: 0;
+}
+
+
+/* Material page background */
+
+.md-main {
+    background: var(--tp-paper);
+}
+
+
+/* Make better use of desktop width */
+
+.md-grid {
+    max-width: 1500px;
+}
+
+
+/* Pull content up underneath the Tadpoly header */
+
+.md-main__inner {
+    margin-top: 0;
+    padding-top: 0;
+}
+
+
+/* ============================================================
+   TADPOLY HEADER
+   ============================================================ */
+
+.tp-header {
+    background: var(--tp-navy);
+    color: var(--tp-paper);
+
+    border-bottom: 3px solid var(--tp-ink);
+}
+
+
+/* ------------------------------------------------------------
+   MASTHEAD
+   ------------------------------------------------------------ */
+
+.tp-masthead {
+    max-width: 1500px;
+    height: 100px;
+
+    margin: 0 auto;
+    padding: 0 24px;
+
+    display: flex;
+    align-items: center;
+    gap: 48px;
+}
+
+
+/* Temporary Tadpoly wordmark */
+
+.tp-brand {
+    min-width: 330px;
+}
+
+.tp-wordmark {
+    font-family: "Arial Black", "Arial Narrow", Arial, sans-serif;
+
+    font-size: 46px;
+    font-weight: 900;
+
+    letter-spacing: -3px;
+    line-height: 0.9;
+
+    color: var(--tp-paper);
+}
+
+.tp-network {
+    margin-top: 8px;
+
+    font-family: monospace;
+    font-size: 13px;
+    font-weight: bold;
+
+    letter-spacing: 4px;
+
+    color: var(--tp-paper);
+}
+
+
+/* ------------------------------------------------------------
+   TAGLINE
+   ------------------------------------------------------------ */
+
+.tp-tagline {
+    flex: 1;
+
+    font-family: monospace;
+    font-size: 14px;
+
+    letter-spacing: 5px;
+
+    white-space: nowrap;
+
+    color: var(--tp-paper);
+}
+
+
+/* ------------------------------------------------------------
+   PROMOTIONAL PANEL
+   ------------------------------------------------------------ */
+
+.tp-promo {
+    min-width: 250px;
+
+    padding: 12px 24px;
+
+    border-left: 2px solid rgba(255, 255, 255, 0.25);
+
+    font-family: "Arial Narrow", Arial, sans-serif;
+
+    font-size: 14px;
+    font-weight: 900;
+
+    letter-spacing: 1px;
+
+    color: var(--tp-paper);
+}
+
+
+/* ============================================================
+   TOP NAVIGATION
+   ============================================================ */
+
+.tp-tabs {
+    max-width: 1500px;
+
+    margin: 0 auto;
+    padding: 0 16px;
+
+    display: flex;
+    align-items: stretch;
+
+    background: var(--tp-navy);
+}
+
+
+/* Individual tabs */
+
+.tp-tabs > a {
+    display: flex;
+    align-items: center;
+
+    padding: 11px 25px;
+
+    color: var(--tp-ink);
+
+    text-decoration: none;
+
+    font-family: "Arial Narrow", Arial, sans-serif;
+
+    font-size: 13px;
+    font-weight: 900;
+
+    letter-spacing: 1px;
+
+    border-right: 2px solid var(--tp-ink);
+
+    transition: filter 0.1s ease;
+}
+
+
+/* Magazine tab colours */
+
+.tp-tabs > a:nth-child(1) {
+    background: var(--tp-blue);
+}
+
+.tp-tabs > a:nth-child(2) {
+    background: var(--tp-green);
+}
+
+.tp-tabs > a:nth-child(3) {
+    background: var(--tp-yellow);
+}
+
+.tp-tabs > a:nth-child(4) {
+    background: var(--tp-pink);
+}
+
+.tp-tabs > a:nth-child(5) {
+    background: #69a9c1;
+}
+
+
+.tp-tabs > a:hover {
+    filter: brightness(1.1);
+
+    color: var(--tp-ink);
+}
+
+
+/* ============================================================
+   SEARCH
+   ============================================================ */
+
+.tp-search {
+    flex: 1;
+
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+
+    padding-left: 20px;
+}
+
+
+.tp-search label {
+    width: 270px;
+
+    padding: 8px 12px;
+
+    background: var(--tp-paper);
+    color: var(--tp-ink-muted);
+
+    border: 2px solid var(--tp-ink);
+
+    font-family: monospace;
+    font-size: 12px;
+
+    cursor: pointer;
+}
+
+
+/* ============================================================
+   MAIN DOCUMENT AREA
+   ============================================================ */
+
+.md-content {
+    padding: 20px 28px 60px;
+
+    color: var(--tp-ink);
+}
+
+
+/* ============================================================
+   TYPOGRAPHY
+   ============================================================ */
+
+.md-typeset {
+    font-family: Georgia, "Times New Roman", serif;
+
+    font-size: 0.78rem;
+    line-height: 1.45;
+
+    color: var(--tp-ink);
+}
+
+
+.md-typeset p {
+    margin-top: 0.6em;
+    margin-bottom: 0.8em;
+}
+
+
+/* ------------------------------------------------------------
+   HEADINGS
+   ------------------------------------------------------------ */
+
+.md-typeset h1,
+.md-typeset h2,
+.md-typeset h3,
+.md-typeset h4 {
+    font-family: "Arial Narrow", Arial, sans-serif;
+
+    color: var(--tp-ink);
+
+    font-weight: 900;
+    text-transform: uppercase;
+}
+
+
+.md-typeset h1 {
+    margin-top: 0;
+    margin-bottom: 0.6rem;
+
+    padding-bottom: 0.25rem;
+
+    font-size: 2.8rem;
+    line-height: 0.95;
+
+    letter-spacing: -0.04em;
+
+    border-bottom: 5px solid var(--tp-rule);
+}
+
+
+.md-typeset h2 {
+    margin-top: 1.5rem;
+    margin-bottom: 0.6rem;
+
+    padding-bottom: 0.15rem;
+
+    font-size: 1.6rem;
+
+    letter-spacing: 0.02em;
+
+    border-bottom: 2px solid var(--tp-rule);
+}
+
+
+.md-typeset h3 {
+    margin-top: 1.3rem;
+    margin-bottom: 0.5rem;
+
+    font-size: 1.1rem;
+
+    letter-spacing: 0.04em;
+}
+
+
+.md-typeset h4 {
+    font-size: 0.9rem;
+
+    letter-spacing: 0.05em;
+}
+
+
+/* ============================================================
+   LINKS
+   ============================================================ */
+
+.md-typeset a {
+    color: #3d7882;
+
+    font-weight: 700;
+
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+}
+
+
+.md-typeset a:hover {
+    color: var(--tp-orange);
+}
+
+
+/* ============================================================
+   LEFT NAVIGATION
+   ============================================================ */
+
+.md-sidebar--primary {
+    border: none;
+}
+
+
+.md-sidebar--primary .md-sidebar__scrollwrap {
+    padding: 20px 16px 30px 0;
+}
+
+
+/* Main navigation heading */
+
+.md-sidebar--primary .md-nav__title {
+    margin-bottom: 10px;
+
+    padding: 9px 12px;
+
+    background: var(--tp-yellow);
+    color: var(--tp-ink);
+
+    border: 2px solid var(--tp-rule);
+
+    box-shadow: 3px 3px 0 rgba(37, 35, 31, 0.15);
+
+    font-family: "Arial Narrow", Arial, sans-serif;
+
+    font-size: 0.85rem;
+    font-weight: 900;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.05em;
+}
+
+
+/* Navigation entries */
+
+.md-sidebar--primary .md-nav__link {
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
+
+    color: var(--tp-ink);
+
+    font-family: monospace;
+    font-size: 0.72rem;
+}
+
+
+.md-sidebar--primary .md-nav__link:hover {
+    color: var(--tp-orange);
+}
+
+
+.md-sidebar--primary .md-nav__link--active {
+    padding-left: 8px;
+
+    background: #aebdc0;
+
+    color: var(--tp-ink) !important;
+
+    font-weight: bold;
+}
+
+/* TEMP */
+.md-sidebar--primary > .md-sidebar__scrollwrap > .md-sidebar__inner > .md-nav > .md-nav__title {
+    display: none;
+}
+
+/* Nested navigation */
+
+.md-sidebar--primary .md-nav .md-nav {
+    margin-left: 0.5rem;
+}
+
+
+/* ============================================================
+   RIGHT TABLE OF CONTENTS
+   ============================================================ */
+
+.md-sidebar--secondary {
+    border: none;
+}
+
+
+.md-sidebar--secondary .md-sidebar__scrollwrap {
+    padding: 20px 0 30px 16px;
+}
+
+
+.md-sidebar--secondary .md-nav__title {
+    margin-bottom: 10px;
+
+    padding: 8px 10px;
+
+    background: var(--tp-green);
+    color: var(--tp-ink);
+
+    border: 2px solid var(--tp-rule);
+
+    font-family: "Arial Narrow", Arial, sans-serif;
+
+    font-size: 0.8rem;
+    font-weight: 900;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.05em;
+}
+
+
+.md-sidebar--secondary .md-nav__link {
+    padding-top: 0.2rem;
+    padding-bottom: 0.2rem;
+
+    color: var(--tp-ink);
+
+    font-family: monospace;
+    font-size: 0.68rem;
+}
+
+
+.md-sidebar--secondary .md-nav__link:hover {
+    color: var(--tp-orange);
+}
+
+
+.md-sidebar--secondary .md-nav__link--active {
+    color: var(--tp-orange);
+
+    font-weight: bold;
+}
+
+
+/* ============================================================
+   CODE
+   ============================================================ */
+
+.md-typeset code {
+    padding: 0.1em 0.3em;
+
+    background: var(--tp-paper-dark);
+    color: var(--tp-ink);
+
+    border-radius: 0;
+
+    font-family: "Courier New", monospace;
+}
+
+
+.md-typeset pre {
+    border: 2px solid var(--tp-rule);
+
+    border-radius: 0;
+
+    box-shadow: 4px 4px 0 rgba(37, 35, 31, 0.18);
+}
+
+
+.md-typeset pre > code {
+    background: #e6e0cf;
+
+    font-family: "Courier New", monospace;
+}
+
+
+/* ============================================================
+   TABLES
+   ============================================================ */
+
+.md-typeset table:not([class]) {
+    width: 100%;
+
+    background: transparent;
+
+    border-top: 3px solid var(--tp-rule);
+    border-bottom: 3px solid var(--tp-rule);
+
+    border-collapse: collapse;
+}
+
+
+.md-typeset table:not([class]) th {
+    padding: 0.5rem 0.7rem;
+
+    background: var(--tp-navy);
+    color: var(--tp-paper);
+
+    font-family: "Arial Narrow", Arial, sans-serif;
+
+    font-weight: 900;
+
+    text-transform: uppercase;
+}
+
+
+.md-typeset table:not([class]) td {
+    padding: 0.45rem 0.7rem;
+
+    border-bottom: 1px solid rgba(53, 50, 44, 0.35);
+}
+
+
+/* ============================================================
+   BLOCKQUOTES
+   ============================================================ */
+
+.md-typeset blockquote {
+    margin: 1.2rem 0;
+
+    padding: 0.8rem 1rem;
+
+    background: #d8e0c7;
+
+    border: 2px solid var(--tp-rule);
+    border-left: 8px solid var(--tp-green);
+
+    color: var(--tp-ink);
+
+    box-shadow: 3px 3px 0 rgba(37, 35, 31, 0.12);
+}
+
+
+.md-typeset blockquote p {
+    margin: 0.3rem 0;
+}
+
+
+/* ============================================================
+   HORIZONTAL RULES
+   ============================================================ */
+
+.md-typeset hr {
+    margin: 1.5rem 0;
+
+    border: 0;
+    border-bottom: 3px solid var(--tp-rule);
+}
+
+
+/* ============================================================
+   LISTS
+   ============================================================ */
+
+.md-typeset ul,
+.md-typeset ol {
+    margin-top: 0.5rem;
+    margin-bottom: 0.8rem;
+}
+
+
+.md-typeset li {
+    margin-bottom: 0.25rem;
+}
+
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+
+.md-footer {
+    background: #181816;
+
+    color: var(--tp-paper);
+
+    border-top: 2px solid var(--tp-rule);
+}
+
+
+.md-footer a {
+    color: var(--tp-paper);
+}
+
+
+/* ============================================================
+   MATERIAL CLEANUP
+   ============================================================ */
+
+/*
+   Remove some of Material's rounded / modern appearance.
+*/
+
+.md-typeset .admonition,
+.md-typeset details {
+    border-radius: 0;
+}
+
+
+.md-search__form {
+    border-radius: 0;
+}
+
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+
+@media screen and (max-width: 1100px) {
+
+    .tp-masthead {
+        gap: 24px;
+    }
+
+    .tp-tagline {
+        display: none;
+    }
+
+    .tp-tabs > a {
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+
+}
+
+
+@media screen and (max-width: 800px) {
+
+    .tp-masthead {
+        height: auto;
+
+        padding-top: 18px;
+        padding-bottom: 18px;
+    }
+
+    .tp-promo {
+        display: none;
+    }
+
+    .tp-brand {
+        min-width: 0;
+    }
+
+    .tp-wordmark {
+        font-size: 36px;
+    }
+
+    .tp-tabs {
+        overflow-x: auto;
+
+        padding: 0;
+    }
+
+    .tp-tabs > a {
+        flex-shrink: 0;
+    }
+
+    .tp-search {
+        display: none;
+    }
+
+    .md-content {
+        padding-left: 18px;
+        padding-right: 18px;
+    }
+
+}
+
+.md-typeset__table {
+    width: 100%;
+}
+
+.md-typeset__table table {
+    width: 100% !important;
+}
+
+.md-typeset table:not([class]) {
+    display: table;
+}
+
+/* ============================================================
+   MAGAZINE CALLOUTS
+   ============================================================ */
+
+.md-typeset .admonition {
+    margin: 1.2rem 0;
+
+    border: 2px solid var(--tp-rule);
+    border-radius: 0;
+
+    box-shadow: 3px 3px 0 rgba(37, 35, 31, 0.15);
+
+    background: #e6dfcb;
+
+    font-family: Georgia, "Times New Roman", serif;
+}
+
+
+/* Remove Material's normal left accent */
+
+.md-typeset .admonition {
+    border-left-width: 2px;
+}
+
+
+/* Header */
+
+.md-typeset .admonition-title {
+    margin: 0;
+    padding: 8px 12px;
+
+    font-family: "Arial Narrow", Arial, sans-serif;
+
+    font-size: 0.85rem;
+    font-weight: 900;
+
+    letter-spacing: 0.06em;
+
+    text-transform: uppercase;
+
+    color: var(--tp-ink);
+}
+
+
+/* Remove Material icon for now */
+
+.md-typeset .admonition-title::before {
+    display: none;
+}
+
+
+/* Body spacing */
+
+.md-typeset .admonition > :not(.admonition-title) {
+    margin-left: 12px;
+    margin-right: 12px;
+}
+
+
+/* ------------------------------------------------------------
+   TAD SAYS
+   ------------------------------------------------------------ */
+
+.md-typeset .admonition.tip {
+    background: #dce4c8;
+}
+
+.md-typeset .admonition.tip > .admonition-title {
+    background: var(--tp-yellow);
+}
+
+
+/* ------------------------------------------------------------
+   GOOD TO KNOW
+   ------------------------------------------------------------ */
+
+.md-typeset .admonition.info {
+    background: #dce7d8;
+}
+
+.md-typeset .admonition.info > .admonition-title {
+    background: var(--tp-green);
+}
+
+
+/* ------------------------------------------------------------
+   COMMON MISTAKES
+   ------------------------------------------------------------ */
+
+.md-typeset .admonition.warning {
+    background: #ead8d5;
+}
+
+.md-typeset .admonition.warning > .admonition-title {
+    background: var(--tp-pink);
+}

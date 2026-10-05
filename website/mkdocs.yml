@@ -3,6 +3,11 @@ site_description: Documentation for the Tadpoly console
 
 theme:
   name: material
+  custom_dir: overrides
+
+  features:
+    - navigation.sections
+    - navigation.indexes
 
 extra_css:
   - stylesheets/tadpoly.css
@@ -13,3 +18,18 @@ nav:
   - System Manual:
       - System Overview: manual/system.md
       - Graphics: manual/graphics.md
+
+  - API Reference:
+      - Audio:
+          - setVolume: api/audio/setVolume.md
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+
+extra:
+  generator: false
+
+copyright: >
+  &copy; 2026 Tadpoly. Released under the MIT License.
