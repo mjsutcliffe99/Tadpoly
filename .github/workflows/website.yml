@@ -34,7 +34,7 @@ jobs:
 
       - name: Install MkDocs
         run: |
-          pip install mkdocs mkdocs-material
+          pip install mkdocs mkdocs-material mkdocs-literate-nav
 
       - name: Build website
         run: mkdocs build --strict
