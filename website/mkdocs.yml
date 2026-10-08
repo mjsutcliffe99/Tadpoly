@@ -1,5 +1,6 @@
 site_name: Tadpoly Developer Documentation
 site_description: Documentation for the Tadpoly console
+site_url: https://tadpoly.net/
 
 theme:
   name: material
@@ -8,25 +9,24 @@ theme:
   features:
     - navigation.sections
     - navigation.indexes
+    - navigation.expand
+    - content.code.copy
 
 extra_css:
   - stylesheets/tadpoly.css
 
-nav:
-  - Home: index.md
-
-  - System Manual:
-      - System Overview: manual/system.md
-      - Graphics: manual/graphics.md
-
-  - API Reference:
-      - Audio:
-          - setVolume: api/audio/setVolume.md
+plugins:
+  - search
+  - literate-nav:
+      nav_file: SUMMARY.md
 
 markdown_extensions:
   - admonition
   - pymdownx.details
   - pymdownx.superfences
+  - tables
+  - pymdownx.highlight:
+      anchor_linenums: true
 
 extra:
   generator: false
