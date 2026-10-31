@@ -1,121 +1,66 @@
 local Cam = {}
 Cam.__index = Cam
 
-function Cam:new(x, y, w, h, images, events)
+function Cam:new()
     local self = setmetatable({
         x = 0, y = 0, z = 5,
-        yaw = 0, -- TODO: should be mod 2pi, otherwise it can keep going if you keep spinning
-        pitch = 0, -- TODO: objects use rotation matrix but cameras use {yaw,pitch} ??
+        yaw = 0,
+        pitch = 0,
         speed = 4,
+        rot_speed = 2.5,
         sensitivity = 0.002
     }, Cam)
     return self
 end
 
-function Cam:forward()
-    local cp = math.cos(self.pitch)
-    return {
-        x = math.sin(self.yaw) * cp,
-        y = math.sin(self.pitch),
-        z = -math.cos(self.yaw) * cp,
-    }
+function Cam:clamp_pitch()
+    local limit = math.rad(89)
+    self.pitch = math.max(-limit, math.min(limit, self.pitch))
 end
 
-function Cam:right()
-    return {
-        x = math.cos(self.yaw),
-        y = 0,
-        z = math.sin(self.yaw),
-    }
-end
-
-function Cam:up()
-    local f = self:forward()
-    local r = self:right()
-
-    return {
-        x = r.y * f.z - r.z * f.y,
-        y = r.z * f.x - r.x * f.z,
-        z = r.x * f.y - r.y * f.x,
-    }
-end
-
-function Cam:screen_to_ray(mx, my)
-    local sw, sh = viewport.w, viewport.h
-    local aspect = sw / sh
-    local fov = math.rad(70)
-    local t = math.tan(fov / 2)
-
-    local ndc_x = (mx / sw) * 2 - 1
-    local ndc_y = (my / sh) * 2 - 1
-
-    -- Camera space, matching your shader's projection
-    local x = ndc_x * aspect * t
-    local y = ndc_y * t
-    local z = -1
-
-    -- inverse of shader's pitch rotation
-    local cp = math.cos(self.pitch)
-    local sp = math.sin(self.pitch)
-
-    local y2 = y * cp - z * sp
-    local z2 = y * sp + z * cp
-    y, z = y2, z2
-
-    -- inverse of shader's yaw rotation
-    local cy = math.cos(self.yaw)
-    local sy = math.sin(self.yaw)
-
-    local x2 = x * cy + z * sy
-    local z3 = -x * sy + z * cy
-    x, z = x2, z3
-
-    local len = math.sqrt(x*x + y*y + z*z)
-
-    return
-        {self.x, self.y, self.z},
-        {x / len, y / len, z / len}
-end
-
-function Cam:world_to_screen(p)
-    local sw, sh = viewport.w, viewport.h
-    local aspect = sw / sh
-    local fov = math.rad(70)
-    local t = math.tan(fov / 2)
-
-    -- world relative to Camera
-    local x = p[1] - self.x
-    local y = p[2] - self.y
-    local z = p[3] - self.z
-
-    -- world -> Camera yaw
-    local cy = math.cos(-self.yaw)
-    local sy = math.sin(-self.yaw)
-
-    local x2 = x * cy + z * sy
-    local z2 = -x * sy + z * cy
-    x, z = x2, z2
-
-    -- world -> Camera pitch
-    local cp = math.cos(-self.pitch)
-    local sp = math.sin(-self.pitch)
-
-    local y2 = y * cp - z * sp
-    local z3 = y * sp + z * cp
-    y, z = y2, z3
-
-    -- Your Camera looks down -Z
-    if z >= -0.001 then
-        return nil
+function Cam:update(dt)
+    local speed = self.speed
+    if love.keyboard.isDown("lshift") then
+        speed = speed * 2
     end
 
-    local ndc_x = (x / -z) / (aspect * t)
-    local ndc_y = (y / -z) / t
+    local forward_x = -math.sin(self.yaw)
+    local forward_z = -math.cos(self.yaw)
 
-    local sx = (ndc_x + 1) * 0.5 * sw
-    local sy = (ndc_y + 1) * 0.5 * sh
+    local right_x = math.cos(self.yaw)
+    local right_z = -math.sin(self.yaw)
 
-    return sx, sy, -z
+    if love.keyboard.isDown("w") then
+        self.x = self.x + forward_x * speed * dt
+        self.z = self.z + forward_z * speed * dt
+    end
+    if love.keyboard.isDown("s") then
+        self.x = self.x - forward_x * speed * dt
+        self.z = self.z - forward_z * speed * dt
+    end
+    if love.keyboard.isDown("d") then
+        self.x = self.x + right_x * speed * dt
+        self.z = self.z + right_z * speed * dt
+    end
+    if love.keyboard.isDown("a") then
+        self.x = self.x - right_x * speed * dt
+        self.z = self.z - right_z * speed * dt
+    end
+
+    if love.keyboard.isDown("space") then self.y = self.y + speed * dt end
+    if love.keyboard.isDown("lctrl") then self.y = self.y - speed * dt end
+
+    if love.keyboard.isDown("up")    then self.pitch = self.pitch + self.rot_speed * dt end
+    if love.keyboard.isDown("down")  then self.pitch = self.pitch - self.rot_speed * dt end
+    if love.keyboard.isDown("left")  then self.yaw   = self.yaw   + self.rot_speed * dt end
+    if love.keyboard.isDown("right") then self.yaw   = self.yaw   - self.rot_speed * dt end
+    self:clamp_pitch()
+end
+
+function Cam:mousemoved(dx, dy)
+    self.yaw = self.yaw - dx * self.sensitivity
+    self.pitch = self.pitch - dy * self.sensitivity
+    self:clamp_pitch()
 end
 
 return Cam
