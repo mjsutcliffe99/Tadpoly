@@ -1,0 +1,12 @@
+{
+	"objects": [
+		{
+			"name": "car1",
+			"mesh": "car.obj",
+			"texture": "car_orange.png",
+			"pos": [2,2,2],
+			"rot": [0,0,0],
+			"scale": [1,0.25,1]
+		}
+	]
+}

@@ -1,0 +1,10 @@
+{
+	"ui": {
+		"main_menu": {
+			"start_game": "Start Game",
+			"save_game": "My name is {name}",
+			"crt": "Toggle CRT",
+			"exit_game": "Exit Game"
+		}
+	}
+}
