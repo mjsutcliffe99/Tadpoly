@@ -50,4 +50,14 @@ return love.graphics.newShader[[
         );
     }
     #endif
+
+    #ifdef PIXEL
+    vec4 effect(vec4 color, Image tex, vec2 uv, vec2 screen_coords)
+    {
+        vec4 tex_color = Texel(tex, uv) * color;
+        if (tex_color.a == 0.0) discard; // fully transparent pixels are ignored rather than overwriting whatever is behind them
+
+        return tex_color;
+    }
+    #endif
 ]]

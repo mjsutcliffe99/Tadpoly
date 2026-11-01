@@ -10,6 +10,7 @@ local depth
 local cam
 local cube_shader = shaders.cube_shader
 local cubeA, cubeB
+local skybox --TEMP
 
 local tiles = {
     red     = {x = 64*0, y = 0, w = 64, h = 64},
@@ -18,8 +19,9 @@ local tiles = {
     green   = {x = 64*3, y = 0, w = 64, h = 64},
     orange  = {x = 64*4, y = 0, w = 64, h = 64},
     magenta = {x = 64*5, y = 0, w = 64, h = 64},
-    window  = {x = 64*0, y = 64,w = 64, h = 64},
-    smile   = {x = 64*1, y = 64,w = 64, h = 64}
+    window_r= {x = 64*0, y = 64,w = 64, h = 64},
+    window_g= {x = 64*3, y = 64,w = 64, h = 64},
+    smile   = {x = 64*1, y = 128,w = 64, h = 64}
 }
 
 function love.load()
@@ -35,7 +37,7 @@ function love.load()
     cubeA = Cuboid:new(atlas, {
         pos = {0,0,0}, pivot = {0,0,0}, rot = {0,0,0}, scale = {2,2,0.25},
         faces = {
-            front = tiles.smile,  back  = tiles.window,
+            front = tiles.smile,  back  = tiles.window_r,
             left  = tiles.cyan, right = tiles.green,
             top   = tiles.orange, bottom = tiles.magenta,
         },
@@ -43,7 +45,7 @@ function love.load()
     cubeB = Cuboid:new(atlas, {
         pos = {0,0,2}, pivot = {0,0,0}, rot = {0,0,0}, scale = {2,2,0.25},
         faces = {
-            front = tiles.window,  back  = tiles.window,
+            front = tiles.window_g,  back  = tiles.window_g,
             left  = tiles.cyan, right = tiles.green,
             top   = tiles.orange, bottom = tiles.magenta,
         },
@@ -51,11 +53,13 @@ function love.load()
     cubeC = Cuboid:new(atlas, {
         pos = {0,0,4}, pivot = {0,0,0}, rot = {0,0,0}, scale = {2,2,0.25},
         faces = {
-            front = tiles.window,  back  = tiles.smile,
+            front = tiles.window_r,  back  = tiles.smile,
             left  = tiles.cyan, right = tiles.green,
             top   = tiles.orange, bottom = tiles.magenta,
         },
     })
+
+    skybox = love.graphics.newImage("skybox.png") --TEMP
 end
 
 function love.update(dt)
@@ -69,7 +73,7 @@ end
 
 function love.draw()
     love.graphics.setCanvas({ canvas, depthstencil = depth })
-    love.graphics.clear(0.2,0,0.2,1)
+    love.graphics.draw(skybox) --love.graphics.clear(0.2,0,0.2,1)
     love.graphics.clear(false, false, true)
 
     love.graphics.setDepthMode("less", true)
