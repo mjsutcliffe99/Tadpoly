@@ -1,5 +1,6 @@
 local Cam = require "cam"
-local Object = require "object"
+local Cuboid = require "cuboid"
+local Quad = require "quad"
 local shaders = require "shaders"
 
 local W, H = 1280, 720
@@ -10,47 +11,14 @@ local cam
 local cube_shader = shaders.cube_shader
 local cubeA, cubeB
 
-local function gen_cuboid(texture, props)
-    local s = 0.5
-
-    local vertices = {
-        -- FRONT (+Z)
-        {-s,-s, s, 0,1}, {-s, s, s, 0,0}, { s, s, s, 1,0},
-        {-s,-s, s, 0,1}, { s, s, s, 1,0}, { s,-s, s, 1,1},
-
-        -- BACK (-Z)
-        { s,-s,-s, 0,1}, { s, s,-s, 0,0}, {-s, s,-s, 1,0},
-        { s,-s,-s, 0,1}, {-s, s,-s, 1,0}, {-s,-s,-s, 1,1},
-
-        -- LEFT (-X)
-        {-s,-s,-s, 0,1}, {-s, s,-s, 0,0}, {-s, s, s, 1,0},
-        {-s,-s,-s, 0,1}, {-s, s, s, 1,0}, {-s,-s, s, 1,1},
-
-        -- RIGHT (+X)
-        { s,-s, s, 0,1}, { s, s, s, 0,0}, { s, s,-s, 1,0},
-        { s,-s, s, 0,1}, { s, s,-s, 1,0}, { s,-s,-s, 1,1},
-
-        -- TOP (+Y)
-        {-s, s, s, 0,1}, {-s, s,-s, 0,0}, { s, s,-s, 1,0},
-        {-s, s, s, 0,1}, { s, s,-s, 1,0}, { s, s, s, 1,1},
-
-        -- BOTTOM (-Y)
-        {-s,-s,-s, 0,1}, {-s,-s, s, 0,0}, { s,-s, s, 1,0},
-        {-s,-s,-s, 0,1}, { s,-s, s, 1,0}, { s,-s,-s, 1,1},
-    }
-
-    local format = {
-        {"VertexPosition", "float", 3},
-        {"VertexTexCoord", "float", 2},
-    }
-
-    local mesh = love.graphics.newMesh(format, vertices, "triangles", "static")
-    mesh:setTexture(texture)
-
-    local obj = Object:new(mesh, props)
-    if not (props and props.name) then obj.name = "cuboid" end
-    return obj
-end
+local tiles = {
+    red     = {x = 64*0, y = 0, w = 64, h = 64},
+    purple  = {x = 64*1, y = 0, w = 64, h = 64},
+    cyan    = {x = 64*2, y = 0, w = 64, h = 64},
+    green   = {x = 64*3, y = 0, w = 64, h = 64},
+    orange  = {x = 64*4, y = 0, w = 64, h = 64},
+    magents = {x = 64*5, y = 0, w = 64, h = 64}
+}
 
 function love.load()
     love.graphics.setDefaultFilter("nearest", "nearest")
@@ -60,8 +28,17 @@ function love.load()
 
     cam = Cam:new()
     local cube_texture = love.graphics.newImage("cube_texture.png")
-    cubeA = gen_cuboid(cube_texture, { pos = {0,0,0} })
-    cubeB = gen_cuboid(cube_texture, { pos = {1,1,0}, pivot = {0,0,0}, rot = {0,0,0}, scale = {2,1,0.25} })
+    local atlas = love.graphics.newImage("tex.png")
+
+    cubeA = Cuboid:new(cube_texture, { pos = {0,0,0} })
+    cubeB = Cuboid:new(atlas, {
+        pos = {1,1,0}, pivot = {0,0,0}, rot = {0,0,0}, scale = {2,1,0.25},
+        faces = {
+            front = tiles.red,  back  = tiles.purple,
+            left  = tiles.cyan, right = tiles.green,
+            top   = tiles.orange, bottom = tiles.magenta,
+        },
+    })
 end
 
 function love.update(dt)

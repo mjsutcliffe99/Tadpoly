@@ -19,7 +19,7 @@ function Object:new(mesh, props)
         rot = vec3(props.rot, {0,0,0}), -- euler angles (radians) around x, y, z
         scale = vec3(props.scale, {1,1,1}),
         pivot = vec3(props.pivot, {0,0,0})
-    }, Object)
+    }, self) -- self is the class being constructed, so subclasses get their own methods
     return self
 end
 
