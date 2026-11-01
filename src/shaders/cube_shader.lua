@@ -5,6 +5,8 @@ return love.graphics.newShader[[
     uniform float cam_yaw;
     uniform float cam_pitch;
 
+    uniform mat4 model;
+
     #ifdef VERTEX
     vec3 inverse_camera_rotate(vec3 p)
     {
@@ -29,7 +31,7 @@ return love.graphics.newShader[[
 
     vec4 position(mat4 transform_projection, vec4 vertex_position)
     {
-        vec3 p = vertex_position.xyz;
+        vec3 p = (model * vertex_position).xyz;
 
         p -= cam_pos;
         p = inverse_camera_rotate(p);
