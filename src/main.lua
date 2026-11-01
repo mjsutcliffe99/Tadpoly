@@ -17,7 +17,9 @@ local tiles = {
     cyan    = {x = 64*2, y = 0, w = 64, h = 64},
     green   = {x = 64*3, y = 0, w = 64, h = 64},
     orange  = {x = 64*4, y = 0, w = 64, h = 64},
-    magents = {x = 64*5, y = 0, w = 64, h = 64}
+    magenta = {x = 64*5, y = 0, w = 64, h = 64},
+    window  = {x = 64*0, y = 64,w = 64, h = 64},
+    smile   = {x = 64*1, y = 64,w = 64, h = 64}
 }
 
 function love.load()
@@ -30,11 +32,26 @@ function love.load()
     local cube_texture = love.graphics.newImage("cube_texture.png")
     local atlas = love.graphics.newImage("tex.png")
 
-    cubeA = Cuboid:new(cube_texture, { pos = {0,0,0} })
-    cubeB = Cuboid:new(atlas, {
-        pos = {1,1,0}, pivot = {0,0,0}, rot = {0,0,0}, scale = {2,1,0.25},
+    cubeA = Cuboid:new(atlas, {
+        pos = {0,0,0}, pivot = {0,0,0}, rot = {0,0,0}, scale = {2,2,0.25},
         faces = {
-            front = tiles.red,  back  = tiles.purple,
+            front = tiles.smile,  back  = tiles.window,
+            left  = tiles.cyan, right = tiles.green,
+            top   = tiles.orange, bottom = tiles.magenta,
+        },
+    })
+    cubeB = Cuboid:new(atlas, {
+        pos = {0,0,2}, pivot = {0,0,0}, rot = {0,0,0}, scale = {2,2,0.25},
+        faces = {
+            front = tiles.window,  back  = tiles.window,
+            left  = tiles.cyan, right = tiles.green,
+            top   = tiles.orange, bottom = tiles.magenta,
+        },
+    })
+    cubeC = Cuboid:new(atlas, {
+        pos = {0,0,4}, pivot = {0,0,0}, rot = {0,0,0}, scale = {2,2,0.25},
+        faces = {
+            front = tiles.window,  back  = tiles.smile,
             left  = tiles.cyan, right = tiles.green,
             top   = tiles.orange, bottom = tiles.magenta,
         },
@@ -66,6 +83,7 @@ function love.draw()
     cube_shader:send("cam_pitch", cam.pitch)
     cubeA:draw(cube_shader)
     cubeB:draw(cube_shader)
+    cubeC:draw(cube_shader)
 
     love.graphics.setShader()
     love.graphics.setMeshCullMode("none")
