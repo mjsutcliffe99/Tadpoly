@@ -33,7 +33,7 @@ local FACES = {
     },
 }
 
-local FACE_ORDER = { "front", "back", "left", "right", "top", "bottom" }
+local FACE_ORDER = { "front" }
 
 local FORMAT = {
     {"VertexPosition", "float", 3},

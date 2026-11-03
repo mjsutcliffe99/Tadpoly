@@ -3,7 +3,7 @@ Cam.__index = Cam
 
 function Cam:new()
     local self = setmetatable({
-        x = 0, y = 0, z = 5,
+        x = 0, y = 0, z = 1.16,
         yaw = 0,
         pitch = 0,
         speed = 4,
