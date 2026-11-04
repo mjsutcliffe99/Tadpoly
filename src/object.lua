@@ -67,11 +67,21 @@ local function clip_near(a, b)
     if a_in then return a, c else return c, b end
 end
 
+
+local label_font -- created on first use
+
+-- 2 decimal places, without printing "-0.00"
+local function fmt2(n)
+    local s = string.format("%.2f", n)
+    if s == "-0.00" then s = "0.00" end
+    return s
+end
+
 local function drawWireframe(mesh, model, cam)
     local m = model
 
     -- transform every vertex into camera space
-    local view = {}
+    local view, worlds = {}, {}
     for i = 1, mesh:getVertexCount() do
         local x, y, z = mesh:getVertex(i) -- VertexPosition is the first attribute
         local world = {
@@ -79,6 +89,7 @@ local function drawWireframe(mesh, model, cam)
             m[5]*x + m[6]*y  + m[7]*z  + m[8],
             m[9]*x + m[10]*y + m[11]*z + m[12],
         }
+        worlds[i] = world
         view[i] = to_view(world, cam)
     end
 
@@ -119,21 +130,36 @@ local function drawWireframe(mesh, model, cam)
     love.graphics.setDepthMode()
     love.graphics.setLineWidth(2)
 
-    love.graphics.setColor(1,1,0,1)
-    for _, e in ipairs(edges) do
-        local a, b = clip_near(view[e[1]], view[e[2]])
-        if a then
-            local x1, y1 = to_screen(a, w, h)
-            local x2, y2 = to_screen(b, w, h)
-            love.graphics.line(x1, y1, x2, y2)
+    if outlines>1 then
+        love.graphics.setColor(1,1,0,1)
+        for _, e in ipairs(edges) do
+            local a, b = clip_near(view[e[1]], view[e[2]])
+            if a then
+                local x1, y1 = to_screen(a, w, h)
+                local x2, y2 = to_screen(b, w, h)
+                love.graphics.line(x1, y1, x2, y2)
+            end
         end
     end
 
-    love.graphics.setColor(1, 0.8, 0.2, 1)
-    for _, v in ipairs(view) do
+    label_font = label_font or love.graphics.newFont(11)
+    love.graphics.setFont(label_font)
+
+    local labelled = {}
+    for i, v in ipairs(view) do
         if v[3] <= -NEAR and v[3] >= -FAR then
             local sx, sy = to_screen(v, w, h)
+            love.graphics.setColor(1, 0.8, 0.2, 1)
             love.graphics.circle("fill", sx, sy, 4)
+
+            -- world-space position, once per distinct corner
+            local p = worlds[i]
+            local text = string.format("(%s, %s, %s)", fmt2(p[1]), fmt2(p[2]), fmt2(p[3]))
+            if not labelled[text] then
+                labelled[text] = true
+                love.graphics.setColor(1, 1, 1, 1)
+                if showLabels then love.graphics.print(text, sx + 7, sy - 14) end
+            end
         end
     end
 
@@ -187,22 +213,22 @@ local function drawCentreLines(mesh, model, cam)
         (min_x + max_x) / 2, (min_y + max_y) / 2, (min_z + max_z) / 2), cam)
     local green_x = to_screen(centre, w, h)
 
-    love.graphics.push("all")
+    --[[love.graphics.push("all")
     love.graphics.setShader()
     love.graphics.setDepthMode()
     love.graphics.setLineWidth(4)
-    love.graphics.setColor(1, 0, 0, 1)
+    love.graphics.setColor(hexToRGBA("#0072B2"), 1)
     love.graphics.line(red_x, 0, red_x, h)
-    love.graphics.setColor(0, 1, 0, 1)
+    love.graphics.setColor(hexToRGBA("#E69F00"), 1)
     love.graphics.line(green_x, 0, green_x, h)
-    love.graphics.pop()
+    love.graphics.pop()]]
 end
 
 function Object:draw(shader, cam)
     shader:send("model", self:get_model_matrix())
-    love.graphics.draw(self.mesh)
+    if filled then love.graphics.draw(self.mesh) end
 
-    drawWireframe(self.mesh, self:get_model_matrix(), cam)
+    if outlines>0 then drawWireframe(self.mesh, self:get_model_matrix(), cam) end
     drawCentreLines(self.mesh, self:get_model_matrix(), cam) --TEMP
 end
 

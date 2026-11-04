@@ -12,7 +12,10 @@ local cube_shader = shaders.cube_shader_noperp
 local cubeA, cubeB, cubeC
 local skybox, tex_skybox --TEMP
 local corrected = false
-local drawBars = true
+local drawBars = false
+outlines = 0
+filled = true
+showLabels = false
 
 local tiles = {
     red     = {x = 64*0, y = 0, w = 64, h = 64},
@@ -36,7 +39,13 @@ local tiles = {
     sky_right  = {x=512,y=256,w=256,h=256},
     --TEMP:
     chess = {x = 64*3, y = 128,w = 64, h = 64},
-    none  = {x = 64*4, y = 128,w = 64, h = 64}
+    none  = {x = 64*4, y = 128,w = 64, h = 64},
+    r     = {x=0, y=0,w=1,h=1},
+    y     = {x=1, y=0,w=1,h=1},
+    g     = {x=2, y=0,w=1,h=1},
+    b     = {x=3, y=0,w=1,h=1},
+    p     = {x=4, y=0,w=1,h=1},
+    c     = {x=5, y=0,w=1,h=1}
 }
 
 function love.load()
@@ -96,9 +105,9 @@ function love.load()
     cube = Cuboid:new(atlas, {
         pos = {0,0,0}, pivot = {0,0,0.5}, rot = {0,0,0}, scale = {1,1,1},
         faces = {
-            front = tiles.chess, back  = tiles.chess,
-            left  = tiles.chess, right = tiles.chess,
-            top   = tiles.chess, bottom = tiles.chess,
+            front = tiles.r, back  = tiles.y,
+            left  = tiles.g, right = tiles.b,
+            top   = tiles.p, bottom = tiles.c,
         },
     })
 end
@@ -106,8 +115,8 @@ end
 function love.update(dt)
     love.mouse.setRelativeMode(true) --TEMP love.mouse.isDown(2))
     local spd = 1.0
-    if (love.mouse.isDown(1)) then cube.rot[2] = cube.rot[2] + spd*dt end --TEMP
-    if (love.mouse.isDown(2)) then cube.rot[2] = cube.rot[2] - spd*dt end --TEMP
+    if (love.mouse.isDown(1)) then cube.rot[3] = cube.rot[3] - spd*dt end --TEMP
+    if (love.mouse.isDown(2)) then cube.rot[2] = cube.rot[2] + spd*dt end --TEMP
     cam:update(dt)
 
     --TEMP:
@@ -152,7 +161,7 @@ function love.draw()
     love.graphics.setCanvas()
 
     love.graphics.draw(canvas)
-    love.graphics.print("Perspective Correction: "..(corrected and "on" or "off"),10,10)
+    --love.graphics.print("Perspective Correction: "..(corrected and "on" or "off"),10,10)
 end
 
 function love.mousemoved(x, y, dx, dy)
@@ -160,9 +169,25 @@ function love.mousemoved(x, y, dx, dy)
 end
 
 function love.keypressed(key)
-    if key == "escape" then love.event.quit() end
-    if key == "q" then
+    if key == "escape" then love.event.quit()
+    elseif key == "q" then
         corrected = not corrected
         cube_shader = corrected and shaders.cube_shader or shaders.cube_shader_noperp
+    elseif key == "o" then
+        outlines = (outlines + 1) % 3
+    elseif key == "f" then
+        filled = not filled
+    elseif key == "l" then
+        showLabels = not showLabels
     end
+end
+
+--TEMP:
+function hexToRGBA(hex)
+    hex = hex:gsub("#", "")
+    return {
+        tonumber(hex:sub(1,2), 16) / 255,
+        tonumber(hex:sub(3,4), 16) / 255,
+        tonumber(hex:sub(5,6), 16) / 255
+    }
 end
